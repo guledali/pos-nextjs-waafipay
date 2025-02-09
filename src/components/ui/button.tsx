@@ -1,9 +1,13 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
+/**
+ * Button variants configuration using class-variance-authority.
+ * Defines different visual styles and sizes for the button component.
+ */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
@@ -31,26 +35,80 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
 
+/**
+ * Props interface for the Button component.
+ * @extends React.ButtonHTMLAttributes<HTMLButtonElement>
+ * @extends VariantProps<typeof buttonVariants>
+ */
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  /**
+   * When true, the component will render its children directly without wrapping them in a button element.
+   * Useful for creating composite components while maintaining button styling.
+   */
+  asChild?: boolean;
 }
 
+/**
+ * A flexible button component with various styling variants and sizes.
+ *
+ * @example
+ * // Default button
+ * <Button>Click me</Button>
+ *
+ * @example
+ * // Destructive button with icon
+ * <Button variant="destructive">
+ *   <TrashIcon />
+ *   Delete
+ * </Button>
+ *
+ * @example
+ * // Secondary large button
+ * <Button variant="secondary" size="lg">
+ *   Large Button
+ * </Button>
+ *
+ * @example
+ * // Ghost button
+ * <Button variant="ghost">Ghost Button</Button>
+ *
+ * @example
+ * // Icon only button
+ * <Button size="icon">
+ *   <IconComponent />
+ * </Button>
+ *
+ * @example
+ * // Using asChild to wrap a Link component
+ * <Button asChild>
+ *   <Link href="/somewhere">Navigate</Link>
+ * </Button>
+ *
+ * @param props - The button props
+ * @param props.className - Additional CSS classes to apply
+ * @param props.variant - The visual style variant of the button
+ *                     ('default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link')
+ * @param props.size - The size variant of the button
+ *                   ('default' | 'sm' | 'lg' | 'icon')
+ * @param props.asChild - When true, renders children directly without button wrapper
+ * @param ref - React ref forwarded to the button element
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+    const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />
-    )
+    );
   }
-)
-Button.displayName = "Button"
+);
+Button.displayName = "Button";
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };
