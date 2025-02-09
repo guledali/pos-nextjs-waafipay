@@ -4,9 +4,12 @@ import { BASE_URL } from "~lib/constant";
 import { Product } from "~lib/types";
 
 export async function getProducts(): Promise<Product[]> {
-  const baseUrl = process.env.NODE_ENV === "development" ? BASE_URL : "";
-  const res = await fetch(`${baseUrl}/api/products`, {
-    cache: "no-store",
+  const url =
+    process.env.NODE_ENV === "development"
+      ? `${BASE_URL}/api/products`
+      : "https://pos-nextjs-waafipay.vercel.app/api/products";
+
+  const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
     },

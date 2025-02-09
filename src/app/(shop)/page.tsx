@@ -1,8 +1,11 @@
+import { connection } from "next/server";
 import { Button } from "@/components/ui/button";
 import { ProductGrid } from "@/app/_components/ProductGrid";
 import { getProducts } from "./actions";
 
 export default async function Page() {
+  await connection();
+
   const products = await getProducts();
 
   return (
